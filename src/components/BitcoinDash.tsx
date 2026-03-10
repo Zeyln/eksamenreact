@@ -7,8 +7,7 @@ export default function BitcoinDB() { // written with the help of Claude.ai and 
     const updateCount = useRef(0);
     const startPrice = useRef(null);
     const endPrice = useRef(null);
-    const priceDiff = useRef(null);
-    let percentageLoaded = '';
+    const priceDiff = useRef('');
 
     useEffect(() => {
         const socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade");
@@ -40,14 +39,16 @@ export default function BitcoinDB() { // written with the help of Claude.ai and 
                 updateCount.current = 0;
                 endPrice.current = newData.p;
 
+                // formula can be used for both instances, thanks to claude.ai for teaching me math.
+                const updatePerc = ((endPrice.current - startPrice.current) / startPrice.current) * 100;
+
                 if (startPrice.current > endPrice.current) {
                     setMarketStatus('⏷');
-                    priceDiff.current = ((startPrice.current - endPrice.current) / endPrice.current) * 100;
-
-                }
-                else {
+                    // toFixed() is so much better than "* 100 / 100", will never be doing that again...
+                    priceDiff.current = `${updatePerc.toFixed(2)}`;
+                } else {
                     setMarketStatus('⏶');
-                    priceDiff.current = ((start.current - endPrice.current) / startPrice.current) * 100;
+                    priceDiff.current = `+${updatePerc.toFixed(2)}`;
                 };
             };
 
@@ -72,7 +73,7 @@ export default function BitcoinDB() { // written with the help of Claude.ai and 
 
             </div>
             <div className="bg-black">
-                <p className="text-green">{priceDiff.current}%</p>
+                <p className="text-green">{priceDiff.current} %</p>
                 <p className="text-green">{marketStatus}</p>
             </div>
         </div>
