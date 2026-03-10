@@ -5,7 +5,7 @@ import BitcoinDB from "./components/BitcoinDash.tsx"
 function App() {
 
   return (
-    <div className="min-h-screen bg-black-900 p-6">
+    <div className="min-h-screen bg-gray-900 p-6">
       <BitcoinDB />
     </div>
   )

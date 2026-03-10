@@ -72,7 +72,7 @@ export default function BitcoinDB() { // written with the help of Claude.ai and 
                 </ol>
 
             </div>
-            <div className="flex flex-row bg-black text-green-400 justify-center">
+            <div className="flex flex-row bg-black text-green-400">
                 <p className="">{priceDiff.current} % </p>
                 <p className="">{marketDirection}</p>
             </div>
