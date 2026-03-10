@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 export default function BitcoinDB() { // written with the help of Claude.ai and chatgpt.com
     const [data, setData] = useState({ p: 0, s: '', q: 0 });
     const [updata, setUpdata] = useState(0);
-    const [marketStatus, setMarketStatus] = useState('');
+    const [marketDirection, setMarketDirection] = useState('');
     const updateCount = useRef(0);
     const startPrice = useRef(null);
     const endPrice = useRef(null);
@@ -43,11 +43,11 @@ export default function BitcoinDB() { // written with the help of Claude.ai and 
                 const updatePerc = ((endPrice.current - startPrice.current) / startPrice.current) * 100;
 
                 if (startPrice.current > endPrice.current) {
-                    setMarketStatus('⏷');
+                    setMarketDirection('⏷');
                     // toFixed() is so much better than "* 100 / 100", will never be doing that again...
                     priceDiff.current = `${updatePerc.toFixed(2)}`;
                 } else {
-                    setMarketStatus('⏶');
+                    setMarketDirection('⏶');
                     priceDiff.current = `+${updatePerc.toFixed(2)}`;
                 };
             };
@@ -63,18 +63,18 @@ export default function BitcoinDB() { // written with the help of Claude.ai and 
     }, []);
 
     return (
-        <div className="grid-rows-2 grid-cols-none rounded text-white">
-            <div className="bg-black">
+        <div className="flex flex-row">
+            <div className="bg-black text-white">
                 <ol>
                     <li><p className="bg-gray-600">Currency: {data.s}</p></li>
-                    <li><p className="">price: USD$ {Math.trunc(data.p)}</p></li>
-                    <li><p className="">quantity 60s: {data.q}</p></li>
+                    <li><p className="">Price: USD$ {Math.trunc(data.p)}</p></li>
+                    <li><p className="">Live Transactions: {data.q}</p></li>
                 </ol>
 
             </div>
-            <div className="bg-black">
-                <p className="text-green">{priceDiff.current} %</p>
-                <p className="text-green">{marketStatus}</p>
+            <div className="flex flex-row bg-black text-green-400 justify-center">
+                <p className="">{priceDiff.current} % </p>
+                <p className="">{marketDirection}</p>
             </div>
         </div>
     );
