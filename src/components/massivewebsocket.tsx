@@ -7,58 +7,57 @@ export default function BitcoinDB() { // written with the help of Claude.ai and 
     const updateCount = useRef(0);
     const startPrice = useRef(null);
     const endPrice = useRef(null);
-    let
 
-        useEffect(() => {
-            const socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade");
+    useEffect(() => {
+        const socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade");
 
-            socket.onopen = () => {
-                console.log("You have connected to the Bitcoin WebSocket");
+        socket.onopen = () => {
+            console.log("You have connected to the Bitcoin WebSocket");
+        };
+
+        socket.onmessage = (event) => {
+            const newData = JSON.parse(event.data);
+            // console.log({
+            //     price: newData.p,
+            //     type: newData.s,
+            //    quantity: newData.q
+            // });
+
+            if (updateCount.current === 0) {
+                startPrice.current = newData.p;
             };
 
-            socket.onmessage = (event) => {
-                const newData = JSON.parse(event.data);
-                // console.log({
-                //     price: newData.p,
-                //     type: newData.s,
-                //    quantity: newData.q
-                // });
+            setData({
+                p: newData.p,
+                s: newData.s,
+                q: newData.q
+            });
 
-                if (updateCount.current === 0) {
-                    startPrice.current = newData.p;
+            updateCount.current += 1;
+            if (updateCount.current >= 100) {
+                updateCount.current = 0;
+                endPrice.current = newData.p;
+
+                if (startPrice.current > endPrice.current) {
+                    setMarketstatus('↓');
+
+                }
+                else {
+                    setMarketstatus('↑');
                 };
-
-                setData({
-                    p: newData.p,
-                    s: newData.s,
-                    q: newData.q
-                });
-
-                updateCount.current += 1;
-                if (updateCount.current >= 100) {
-                    updateCount.current = 0;
-                    endPrice.current = newData.p;
-
-                    if (startPrice.current > endPrice.current) {
-                        setMarketstatus('↓');
-
-                    }
-                    else {
-                        setMarketstatus('↑');
-                    };
-                };
-
-
-
             };
 
-            socket.onclose = () => {
-                console.log("Disconnected");
 
-            };
 
-            return () => socket.close();
-        }, []);
+        };
+
+        socket.onclose = () => {
+            console.log("Disconnected");
+
+        };
+
+        return () => socket.close();
+    }, []);
 
     return (
         <div className="btc-market-dashboard">
