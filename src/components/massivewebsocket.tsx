@@ -1,46 +1,76 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
-export default function PullStocks() {
+export default function BitcoinDB() { // written with the help of Claude.ai and chatgpt.com
     const [data, setData] = useState({ p: 0, s: '', q: 0 });
-    useEffect(() => {
-        const socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade");
+    const [updata, setUpdata] = useState(0)
+    const [marketstatus, setMarketstatus] = useState('')
+    const updateCount = useRef(0);
+    const startPrice = useRef(null);
+    const endPrice = useRef(null);
+    let
 
-        socket.onopen = () => {
-            console.log("You have connected to the Massive WebSocket");
-        };
+        useEffect(() => {
+            const socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade");
 
-        socket.onmessage = (event) => {
-            const newData = JSON.parse(event.data);
-            console.log({
-                price: newData.p,
-                type: newData.s,
-                quantity: newData.q
-            });
+            socket.onopen = () => {
+                console.log("You have connected to the Bitcoin WebSocket");
+            };
 
-            setData({
-                p: newData.p,
-                s: newData.s,
-                q: newData.q
-            });
+            socket.onmessage = (event) => {
+                const newData = JSON.parse(event.data);
+                // console.log({
+                //     price: newData.p,
+                //     type: newData.s,
+                //    quantity: newData.q
+                // });
 
-        };
+                if (updateCount.current === 0) {
+                    startPrice.current = newData.p;
+                };
 
-        socket.onclose = () => {
-            console.log("Disconnected");
+                setData({
+                    p: newData.p,
+                    s: newData.s,
+                    q: newData.q
+                });
 
-        };
+                updateCount.current += 1;
+                if (updateCount.current >= 100) {
+                    updateCount.current = 0;
+                    endPrice.current = newData.p;
 
-        return () => socket.close();
-    }, []);
+                    if (startPrice.current > endPrice.current) {
+                        setMarketstatus('↓');
+
+                    }
+                    else {
+                        setMarketstatus('↑');
+                    };
+                };
+
+
+
+            };
+
+            socket.onclose = () => {
+                console.log("Disconnected");
+
+            };
+
+            return () => socket.close();
+        }, []);
 
     return (
-        <div className="btc-stock-units">
-            <p id="btc-currency">Currency: {data.s}</p>
-            br
-            <p id="btc-pricing">price: {data.p}</p>
-            <p id="btc-quantity">amount traded: {data.q}</p>
+        <div className="btc-market-dashboard">
+            <div className="btc-units">
+                <p id="btc-currency">Currency: {data.s}</p>
+                <p id="btc-pricing">price: USD$ {Math.trunc(data.p)}</p>
+                <p id="btc-quantity">quantity 60s: {data.q}</p>
 
+            </div>
+            <div className="market-trend">
+                <p id="market-trend-indicator">{marketstatus}</p>
+            </div>
         </div>
-
     );
 }

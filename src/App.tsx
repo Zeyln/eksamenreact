@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import PullStocks from "./components/massivewebsocket.tsx"
+import BitcoinDB from "./components/massivewebsocket.tsx"
 import './App.css'
 
 
@@ -7,7 +7,7 @@ function App() {
 
   return (
     <>
-      <PullStocks />
+      <BitcoinDB />
     </>
   )
 }
