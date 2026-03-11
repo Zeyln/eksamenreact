@@ -1,6 +1,5 @@
 # Stage 1: Build
-# Original code from docker docs, fixed and optimized by claude.ai.
-FROM node:18-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 COPY package*.json ./
@@ -8,13 +7,12 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# Stage 2: Production image
-FROM node:18-alpine
+# Stage 2: Serve with nginx
+FROM nginx:alpine
 
-WORKDIR /app
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package*.json ./
-RUN npm install --omit=dev
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-EXPOSE 3000
-CMD ["node", "dist/main.js"]
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+

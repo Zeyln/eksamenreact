@@ -37,7 +37,7 @@ export default function EthereumDB() {
 
             updateCount.current += 1;
             console.log(updateCount.current);
-            if (updateCount.current >= 1000) {
+            if (updateCount.current >= 500) {
                 updateCount.current = 0;
                 endPrice.current = newData.p;
 
