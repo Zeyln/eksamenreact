@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 
 // written with the help of Claude.ai and chatgpt.com
-export default function BitcoinDB() {
+export default function EthereumDB() {
     const [data, setData] = useState({ p: 0, s: '', q: 0 });
     const [marketDirection, setMarketDirection] = useState('');
     const updateCount = useRef(0);
@@ -11,7 +11,7 @@ export default function BitcoinDB() {
 
     // the fetch, message, and close structure of this useEffect hook have been made with the help of chatgpt.com
     useEffect(() => {
-        const socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade");
+        const socket = new WebSocket("wss://stream.binance.com:9443/ws/ethusdt@trade");
 
         socket.onopen = () => {
             console.log("You have connected to the Bitcoin WebSocket");
