@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import BitcoinDB from "./components/BitcoinDash.tsx"
 import EthereumDB from "./components/EthereumDash.tsx"
 
