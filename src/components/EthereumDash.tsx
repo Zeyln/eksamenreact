@@ -66,10 +66,10 @@ export default function EthereumDB() {
 
     return (
         // All the CSS elements in this return statement are Tailwindcss, and i have gotten them from the Tailwind Docs.
-        <div className="grid grid-cols-2 grid-rows-2 w-fit h-fit align-center shadow-lx ring-2 ring-blue-500 bg-black">
+        <div className="grid grid-cols-2 grid-rows-2 w-fit h-fit align-center m-4 shadow-lx ring-2 ring-blue-500 bg-black">
             <div className="grid grid-cols-1 grid-rows-3 text-white p-2">
                 <div className="grid grid-cols-2 col-span-1 grid-rows-1 items-center h-10 bg-gray-500">
-                    <p className="">Currency:</p><p className="">{data.s}</p>
+                    <h2 className="">Currency:</h2><h2 className="">{data.s}</h2>
                 </div>
                 <div className="grid grid-cols-2 grid-rows-1 items-center bg-gray-800 h-10">
                     <p className="">Price: USD$</p><p className="">{Math.trunc(data.p)}</p>
