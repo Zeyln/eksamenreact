@@ -2,7 +2,7 @@
 
 ### Welcome to CryptoDash!
 
-### Install with docker:
+### With docker:
 #### first, clone the repository <br>
 ```
 https://github.com/Zeyln/eksamenreact.git
@@ -13,7 +13,9 @@ https://github.com/Zeyln/eksamenreact.git
 ``` docker ``` <br>
 ``` nginx ``` <br>
 
-#### build the docker image: <br>
+I recommend you install Docker Desktop <a href="https://www.docker.com/products/docker-desktop/">Here</a>
+
+#### Navigate to project directory and build the docker image: <br>
 ```
 docker build -t <image-name> .
 ```
