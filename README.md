@@ -2,6 +2,7 @@
 
 ### Welcome to CryptoDash!
 
+Applicable only to Unix, macOS, Linux systems.<br>
 ### With docker:
 #### first, clone the repository <br>
 ```
