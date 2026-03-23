@@ -30,3 +30,6 @@ docker run -p 8080:80 <container-name>
 The **CryptoDash** application utilizes a WebSocket to maintain a real-time and quick datastream,<br> 
 therefore it is required you have a strong internet connection while using this application.<br>
 High ping may affect the accuracy of this application negatively.
+
+### Data Usage
+[Privacy-Policy](privacy-policy.md)
